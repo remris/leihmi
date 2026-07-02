@@ -19,7 +19,15 @@ export async function GET() {
       where: { tenantId: tenant.id },
       include: {
         customer: true,
-        inventoryItem: true,
+        items: {
+          include: {
+            unit: {
+              include: {
+                item: true,
+              },
+            },
+          },
+        },
       },
       orderBy: { createdAt: "desc" },
     });
