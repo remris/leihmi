@@ -10,7 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 import { tenant } from "@/lib/mock-data";
 
-type NavItem = { href: string; label: string; icon: typeof LayoutDashboard; badge?: string };
+type NavItem = { href: string; label: string; icon: typeof LayoutDashboard; badge?: number };
 
 const nav: { section: string; items: NavItem[] }[] = [
   {

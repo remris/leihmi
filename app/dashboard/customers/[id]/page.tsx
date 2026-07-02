@@ -40,7 +40,20 @@ export default async function CustomerDetailPage({ params }: { params: { id: str
     notFound();
   }
 
-  const totalSpent = customer.rentals.reduce((sum, r) => sum + (r.totalPrice ?? 0), 0);
+  // Berechne totalSpent basierend auf den Item-Preisen
+  // Da wir keine totalPrice im Rental haben, summieren wir die Item-Preise
+  const totalSpent = customer.rentals.reduce((sum, rental) => {
+    const rentalTotal = rental.items.reduce((itemSum, rentalItem) => {
+      const itemPrice = rentalItem.unit?.item?.price ?? 0;
+      // Berechne Tage zwischen startDate und endDate (oder jetzt falls noch aktiv)
+      const start = new Date(rental.startDate);
+      const end = rental.endDate ? new Date(rental.endDate) : new Date();
+      const days = Math.max(1, Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)));
+      return itemSum + (itemPrice * days);
+    }, 0);
+    return sum + rentalTotal;
+  }, 0);
+
   const activeRentals = customer.rentals.filter((r) => r.status === "ACTIVE").length;
 
   return (
@@ -122,24 +135,35 @@ export default async function CustomerDetailPage({ params }: { params: { id: str
                 <h3 className="text-sm font-semibold">Recent Rentals</h3>
               </div>
               <div className="divide-y divide-border">
-                {customer.rentals.slice(0, 10).map((rental) => (
-                  <div key={rental.id} className="flex items-center justify-between px-5 py-3.5">
-                    <div>
-                      <div className="text-sm font-medium">
-                        {rental.items.map((ri) => ri.unit?.item?.name).filter(Boolean).join(", ") || "Items"}
+                {customer.rentals.slice(0, 10).map((rental) => {
+                  // Berechne Preis für dieses Rental
+                  const rentalPrice = rental.items.reduce((sum, rentalItem) => {
+                    const itemPrice = rentalItem.unit?.item?.price ?? 0;
+                    const start = new Date(rental.startDate);
+                    const end = rental.endDate ? new Date(rental.endDate) : new Date();
+                    const days = Math.max(1, Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)));
+                    return sum + (itemPrice * days);
+                  }, 0);
+
+                  return (
+                    <div key={rental.id} className="flex items-center justify-between px-5 py-3.5">
+                      <div>
+                        <div className="text-sm font-medium">
+                          {rental.items.map((ri) => ri.unit?.item?.name).filter(Boolean).join(", ") || "Items"}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {shortDate(rental.startDate.toISOString())} → {rental.endDate ? shortDate(rental.endDate.toISOString()) : "Ongoing"}
+                        </div>
                       </div>
-                      <div className="text-xs text-muted-foreground">
-                        {shortDate(rental.startDate.toISOString())} → {shortDate(rental.endDate.toISOString())}
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-semibold">{eur(rentalPrice)}</span>
+                        <StatusPill tone={rental.status === "ACTIVE" ? "primary" : rental.status === "RETURNED" ? "accent" : "destructive"}>
+                          {rental.status.toLowerCase()}
+                        </StatusPill>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-sm font-semibold">{eur(rental.totalPrice ?? 0)}</span>
-                      <StatusPill tone={rental.status === "ACTIVE" ? "primary" : rental.status === "COMPLETED" ? "accent" : "destructive"}>
-                        {rental.status.toLowerCase()}
-                      </StatusPill>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
                 {customer.rentals.length === 0 && (
                   <div className="px-5 py-10 text-center text-sm text-muted-foreground">
                     No rentals yet

@@ -1,22 +1,24 @@
 # Aktuelle Probleme & Offene Aufgaben
 
+## ✅ ERFOLG: Build kompiliert ohne Fehler!
+
+**Stand:** 02.07.2026
+**Status:** Alle TypeScript-Fehler behoben, npm run build erfolgreich
+
+### Behobene kritische Fehler:
+1. ✅ Prisma Schema - Rental timestamps hinzugefügt
+2. ✅ Prisma Schema - Reservation notes & timestamps hinzugefügt
+3. ✅ TenantSettings Typ definiert
+4. ✅ Calendar Rental endDate kann null sein
+5. ✅ Customer Detail - totalPrice Berechnung statt nicht existierendem Feld
+6. ✅ Sidebar badge Typ von string auf number geändert
+7. ✅ ESLint Fehler in book/page.tsx behoben
+
+---
+
 ## 🔴 Kritische Fehler (müssen sofort behoben werden)
 
-### 1. Prisma Client nicht regeneriert
-**Status:** ⚠️ Nach Migration
-**Problem:** Der Prisma Client muss nach Schema-Änderungen neu generiert werden
-**Lösung:** 
-```bash
-# Dev-Server stoppen, dann:
-npx prisma generate
-# oder einfach Dev-Server neu starten (regeneriert automatisch)
-npm run dev
-```
-
-### 2. TypeScript Fehler in rentals/route.ts
-**Status:** ⚠️ Wird nach Prisma Generate behoben
-**Problem:** `createdAt` wird nicht erkannt (weil Prisma Client veraltet)
-**Datei:** `app/api/dashboard/rentals/route.ts:32`
+~~Alle kritischen Build-Fehler behoben! ✅~~
 
 ---
 
