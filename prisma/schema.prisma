@@ -1,0 +1,345 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+//
+// =======================
+// CORE: TENANT SYSTEM
+// =======================
+//
+
+model Tenant {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  users           User[]
+  items           InventoryItem[]
+  customers       Customer[]
+  categories      Category[]
+  reservations    Reservation[]
+  rentals         Rental[]
+  bookingRequests BookingRequest[]
+}
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String?
+  passwordHash  String?
+  emailVerified DateTime?
+  image         String?
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  role UserRole @default(OWNER)
+
+  accounts Account[]
+  sessions Session[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([tenantId])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+enum UserRole {
+  OWNER
+  ADMIN
+  OPERATOR
+  VIEWER
+}
+
+//
+// =======================
+// INVENTORY
+// =======================
+//
+
+model InventoryItem {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  price       Float   @default(0) // Preis pro Tag in EUR
+  available   Boolean @default(true) // Vereinfachte Verfügbarkeit
+  minRentalDays Int?  // Minimale Leihdauer in Tagen (optional)
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  units  InventoryUnit[]
+  images ItemImage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+//
+// einzelne physische Objekte (WICHTIG für Vermietung)
+// z.B. 10 gleiche Hüpfburgen oder 1 bestimmter Anhänger
+//
+model InventoryUnit {
+  id           String  @id @default(cuid())
+  serialNumber String? @unique
+
+  status ItemStatus @default(AVAILABLE)
+
+  itemId String
+  item   InventoryItem @relation(fields: [itemId], references: [id])
+
+  rentals       RentalItem[]
+  reservations  ReservationItem[]
+  damageReports DamageReport[]
+}
+
+enum ItemStatus {
+  AVAILABLE
+  RESERVED
+  RENTED
+  MAINTENANCE
+  LOST
+}
+
+//
+// =======================
+// CATEGORIES
+// =======================
+//
+
+model Category {
+  id   String @id @default(cuid())
+  name String
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  items InventoryItem[]
+}
+
+//
+// =======================
+// CUSTOMERS
+// =======================
+//
+
+model Customer {
+  id String @id @default(cuid())
+
+  name    String
+  email   String?
+  phone   String?
+  company String?
+  city    String?
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  rentals      Rental[]
+  reservations Reservation[]
+
+  createdAt DateTime @default(now())
+}
+
+//
+// =======================
+// RESERVATION (geplant)
+// =======================
+//
+
+model Reservation {
+  id String @id @default(cuid())
+
+  startDate DateTime
+  endDate   DateTime
+
+  status ReservationStatus @default(PENDING)
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+
+  items ReservationItem[]
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model ReservationItem {
+  id String @id @default(cuid())
+
+  reservationId String
+  reservation   Reservation @relation(fields: [reservationId], references: [id])
+
+  unitId String
+  unit   InventoryUnit @relation(fields: [unitId], references: [id])
+}
+
+//
+// =======================
+// RENTALS (aktive Vermietung)
+// =======================
+//
+
+model Rental {
+  id String @id @default(cuid())
+
+  startDate DateTime
+  endDate   DateTime?
+
+  status RentalStatus @default(ACTIVE)
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id])
+
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+
+  items RentalItem[]
+}
+
+enum RentalStatus {
+  ACTIVE
+  RETURNED
+  OVERDUE
+}
+
+model RentalItem {
+  id String @id @default(cuid())
+
+  rentalId String
+  rental   Rental @relation(fields: [rentalId], references: [id])
+
+  unitId String
+  unit   InventoryUnit @relation(fields: [unitId], references: [id])
+}
+
+//
+// =======================
+// IMAGES
+// =======================
+//
+
+model ItemImage {
+  id  String @id @default(cuid())
+  url String
+
+  itemId String
+  item   InventoryItem @relation(fields: [itemId], references: [id])
+}
+
+//
+// =======================
+// DAMAGES / ISSUES
+// =======================
+//
+
+model DamageReport {
+  id String @id @default(cuid())
+
+  description String
+  severity    DamageSeverity
+
+  unitId String
+  unit   InventoryUnit @relation(fields: [unitId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+enum DamageSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  TOTAL_LOSS
+}
+
+//
+// =======================
+// PUBLIC BOOKING REQUESTS
+// =======================
+//
+
+model BookingRequest {
+  id String @id @default(cuid())
+
+  customerName String
+  email        String?
+  phone        String?
+  message      String?
+  status       BookingRequestStatus @default(OPEN)
+
+  tenantId String
+  tenant   Tenant @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([tenantId])
+}
+
+enum BookingRequestStatus {
+  OPEN
+  IN_PROGRESS
+  CONVERTED
+  REJECTED
+}
