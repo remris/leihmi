@@ -209,6 +209,7 @@ model Reservation {
   endDate   DateTime
 
   status ReservationStatus @default(PENDING)
+  notes  String?
 
   tenantId String
   tenant   Tenant @relation(fields: [tenantId], references: [id])
@@ -217,6 +218,9 @@ model Reservation {
   customer   Customer @relation(fields: [customerId], references: [id])
 
   items ReservationItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 enum ReservationStatus {
