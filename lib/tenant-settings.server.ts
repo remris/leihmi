@@ -1,6 +1,19 @@
 import { prisma } from "@/lib/prisma";
 
-export async function getTenantSettings(tenantSlug: string) {
+export type TenantSettings = {
+  companyName: string;
+  contactEmail: string;
+  vatId: string;
+  address: string;
+  brandColor: string;
+  logo: string | null;
+  font: string;
+  howItWorks: string | null;
+  reviews: Array<{ text: string; who: string }>;
+  faq: Array<{ q: string; a: string }>;
+};
+
+export async function getTenantSettings(tenantSlug: string): Promise<TenantSettings> {
   const tenant = await prisma.tenant.findUnique({
     where: { slug: tenantSlug },
   });

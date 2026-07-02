@@ -5,15 +5,30 @@ import "server-only";
 import { getCurrentTenant } from "@/lib/tenant-context.server";
 import { prisma } from "@/lib/prisma";
 import { eur } from "@/lib/format";
-import { getTenantBySlug } from "@/lib/tenant";
-import { getTenantSettings } from "@/lib/tenant-settings.server";
+import { getTenantSettings, type TenantSettings } from "@/lib/tenant-settings.server";
 
 export default async function BookLandingPage() {
   const tenant = await getCurrentTenant();
   const tenantName = tenant?.name ?? "Leihmi";
 
   // load public settings
-  const settings = tenant ? await getTenantSettings(tenant.slug) : {};
+  let settings: TenantSettings;
+  if (tenant) {
+    settings = await getTenantSettings(tenant.slug);
+  } else {
+    settings = {
+      companyName: "",
+      contactEmail: "",
+      vatId: "",
+      address: "",
+      brandColor: "#1d6e4b",
+      logo: null,
+      font: "Urbanist + Epilogue",
+      howItWorks: null,
+      reviews: [],
+      faq: [],
+    };
+  }
 
   // Fetch featured inventory for this tenant
   const items = tenant
@@ -198,7 +213,7 @@ export default async function BookLandingPage() {
           <div>
             <h2 className="text-[28px] font-semibold tracking-tight">Request a booking</h2>
             <p className="mt-3 max-w-md text-sm text-muted-foreground leading-relaxed">
-              Tell us what you need and when. We'll confirm within an hour during business days, or instantly if the item is available.
+              Tell us what you need and when. We&apos;ll confirm within an hour during business days, or instantly if the item is available.
             </p>
             <ul className="mt-6 space-y-2.5 text-sm">
               {[("Free cancellation up to 7 days before"), ("Damage waiver included"), ("Delivery available across NRW")].map((t) => (
@@ -258,7 +273,7 @@ export default async function BookLandingPage() {
             {reviews.map((r, i) => (
               <div key={i} className="rounded-2xl border border-border bg-surface p-6">
                 <div className="text-[12px] font-bold tracking-[0.18em] text-primary">{i + 1}</div>
-                <p className="mt-3 text-sm leading-relaxed text-foreground">"{r.text}"</p>
+                <p className="mt-3 text-sm leading-relaxed text-foreground">&ldquo;{r.text}&rdquo;</p>
                 <div className="mt-4 text-[12px] font-medium text-muted-foreground">{r.who}</div>
               </div>
             ))}
