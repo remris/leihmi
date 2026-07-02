@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { getCurrentTenant } from "@/lib/tenant-context.server";
-import prisma from "@/lib/prisma";
+import { prisma } from "@/lib/prisma";
 
 export async function GET() {
   try {
