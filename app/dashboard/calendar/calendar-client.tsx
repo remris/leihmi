@@ -13,7 +13,7 @@ type Rental = {
   id: string;
   status: string;
   startDate: Date;
-  endDate: Date;
+  endDate: Date | null;
   items: Array<{
     unit: {
       item: {
@@ -63,7 +63,8 @@ export default function CalendarClient({
     // Füge Rentals hinzu
     rentals.forEach((rental) => {
       const start = new Date(rental.startDate);
-      const end = new Date(rental.endDate);
+      // endDate kann null sein für noch nicht beendete Rentals
+      const end = rental.endDate ? new Date(rental.endDate) : null;
 
       // Nur Events im aktuellen Monat
       if (start.getMonth() === date.getMonth() && start.getFullYear() === date.getFullYear()) {
