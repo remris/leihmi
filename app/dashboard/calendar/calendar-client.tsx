@@ -7,7 +7,7 @@ import { PageHeader } from "@/components/app/page-header";
 import { Button } from "@/components/ui/button";
 import { triggerCreate } from "@/lib/store";
 
-const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+const months = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
 
 type Rental = {
   id: string;
@@ -95,14 +95,14 @@ export default function CalendarClient({
 
   return (
     <>
-      <Topbar title="Calendar" />
+      <Topbar title="Kalender" />
       <main className="flex-1 px-4 py-6 lg:px-7 lg:py-8">
         <PageHeader
-          title="Calendar"
-          description="See every rental, pickup and return in one place. Drag-and-drop coming soon."
+          title="Kalender"
+          description="Übersicht über alle Vermietungen, Abholungen und Rückgaben. Drag & Drop folgt bald."
           actions={
             <Button size="sm" onClick={() => triggerCreate("reservation")}>
-              <Plus className="h-4 w-4" />New booking
+              <Plus className="h-4 w-4" />Neue Buchung
             </Button>
           }
         />
@@ -125,13 +125,13 @@ export default function CalendarClient({
               >
                 <ChevronRight className="h-4 w-4" />
               </Button>
-              <Button variant="outline" size="sm" onClick={() => setDate(new Date())}>Today</Button>
+              <Button variant="outline" size="sm" onClick={() => setDate(new Date())}>Heute</Button>
             </div>
             <div className="ml-auto inline-flex rounded-lg border border-border bg-background p-0.5">
               {[
-                { v: "month", label: "Month", icon: LayoutGrid },
-                { v: "week", label: "Week", icon: CalendarDays },
-                { v: "timeline", label: "Timeline", icon: Rows3 },
+                { v: "month", label: "Monat", icon: LayoutGrid },
+                { v: "week", label: "Woche", icon: CalendarDays },
+                { v: "timeline", label: "Zeitachse", icon: Rows3 },
               ].map((opt) => {
                 const Active = opt.icon;
                 const active = view === opt.v;
@@ -155,7 +155,7 @@ export default function CalendarClient({
           {view === "month" && (
             <>
               <div className="grid grid-cols-7 border-b border-border bg-muted/30 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                {["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map((d) => (
+                {["Mo","Di","Mi","Do","Fr","Sa","So"].map((d) => (
                   <div key={d} className="px-3 py-2">{d}</div>
                 ))}
               </div>
@@ -199,7 +199,7 @@ export default function CalendarClient({
                           ))}
                           {events[day] && events[day].length > 3 && (
                             <div className="text-[10px] text-muted-foreground pl-1.5">
-                              +{events[day].length - 3} more
+                              +{events[day].length - 3} weitere
                             </div>
                           )}
                         </div>
@@ -214,14 +214,14 @@ export default function CalendarClient({
           {view === "week" && (
             <div className="p-8 text-center text-muted-foreground">
               <CalendarDays className="mx-auto h-12 w-12 opacity-30" />
-              <div className="mt-3 text-sm">Week view coming soon</div>
+              <div className="mt-3 text-sm">Wochenansicht folgt bald</div>
             </div>
           )}
 
           {view === "timeline" && (
             <div className="p-8 text-center text-muted-foreground">
               <Rows3 className="mx-auto h-12 w-12 opacity-30" />
-              <div className="mt-3 text-sm">Timeline view coming soon</div>
+              <div className="mt-3 text-sm">Zeitachsen-Ansicht folgt bald</div>
             </div>
           )}
         </div>
@@ -229,4 +229,3 @@ export default function CalendarClient({
     </>
   );
 }
-

@@ -92,7 +92,6 @@ function ItemDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: b
             setDesc("");
             setImageUrl("");
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
 
     const canSave = name.trim() && categoryId && Number(price) > 0 && Number(qty) > 0;
@@ -125,30 +124,30 @@ function ItemDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: b
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-xl">
                 <DialogHeader>
-                    <DialogTitle>Add inventory item</DialogTitle>
-                    <DialogDescription>Add a new rental asset to your catalog.</DialogDescription>
+                    <DialogTitle>Neues Objekt</DialogTitle>
+                    <DialogDescription>Neues Objekt zu deinem Katalog hinzufügen.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4">
                     <Field label="Name">
-                        <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Party Tent 6×8m" />
+                        <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="z. B. Partyzelt 6×8m" />
                     </Field>
                     <div className="grid grid-cols-2 gap-3">
-                        <Field label="Category">
+                        <Field label="Kategorie">
                             <Select value={categoryId} onValueChange={setCategoryId}>
-                                <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                                <SelectTrigger><SelectValue placeholder="Auswählen" /></SelectTrigger>
                                 <SelectContent>
                                     {categories.map((c: any) => <SelectItem key={c.id} value={c.id}>{c.name}</SelectItem>)}
                                 </SelectContent>
                             </Select>
                         </Field>
-                        <Field label="Quantity">
+                        <Field label="Menge">
                             <Input type="number" min={1} value={qty} onChange={(e) => setQty(e.target.value)} />
                         </Field>
                     </div>
-                    <Field label="Price per day (EUR)">
+                    <Field label="Preis pro Tag (EUR)">
                         <Input type="number" min={0} value={price} onChange={(e) => setPrice(e.target.value)} />
                     </Field>
-                    <Field label="Image URL" hint="Optional - Link to product image">
+                    <Field label="Bild-URL" hint="Optional - Link zum Produktbild">
                         <Input
                             type="url"
                             value={imageUrl}
@@ -168,16 +167,16 @@ function ItemDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: b
                             />
                         </div>
                     )}
-                    <Field label="Description">
-                        <Textarea rows={3} value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Short internal description" />
+                    <Field label="Beschreibung">
+                        <Textarea rows={3} value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Kurze interne Beschreibung" />
                     </Field>
                 </div>
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+                    <Button variant="outline" onClick={() => onOpenChange(false)}>Abbrechen</Button>
                     <Button
                         disabled={!canSave || loading}
                         onClick={handleSave}
-                    >{loading ? "Saving..." : "Add item"}</Button>
+                    >{loading ? "Speichert..." : "Objekt hinzufügen"}</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
@@ -202,7 +201,6 @@ function CustomerDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (
             setCompany("");
             setCity("");
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
 
     const canSave = name.trim() && /\S+@\S+\.\S+/.test(email) && phone.trim();
@@ -232,36 +230,36 @@ function CustomerDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Add customer</DialogTitle>
-                    <DialogDescription>Create a new customer record.</DialogDescription>
+                    <DialogTitle>Neuer Kunde</DialogTitle>
+                    <DialogDescription>Kunden-Datensatz anlegen.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4">
-                    <Field label="Full name">
-                        <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Doe" />
+                    <Field label="Vollständiger Name">
+                        <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Max Mustermann" />
                     </Field>
                     <div className="grid grid-cols-2 gap-3">
-                        <Field label="Email">
-                            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="jane@example.com" />
+                        <Field label="E-Mail">
+                            <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="max@example.com" />
                         </Field>
-                        <Field label="Phone">
+                        <Field label="Telefon">
                             <Input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+49 …" />
                         </Field>
                     </div>
                     <div className="grid grid-cols-2 gap-3">
-                        <Field label="Company" hint="Optional">
+                        <Field label="Firma" hint="Optional">
                             <Input value={company} onChange={(e) => setCompany(e.target.value)} />
                         </Field>
-                        <Field label="City" hint="Optional">
+                        <Field label="Stadt" hint="Optional">
                             <Input value={city} onChange={(e) => setCity(e.target.value)} placeholder="Berlin" />
                         </Field>
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+                    <Button variant="outline" onClick={() => onOpenChange(false)}>Abbrechen</Button>
                     <Button
                         disabled={!canSave || loading}
                         onClick={handleSave}
-                    >{loading ? "Saving..." : "Add customer"}</Button>
+                    >{loading ? "Speichert..." : "Kunden hinzufügen"}</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
@@ -288,7 +286,6 @@ function RentalDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o:
             setEnd(todayISO(2));
             setNotes("");
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
 
     const canSave = customerId && itemId && start && end && new Date(end) >= new Date(start);
@@ -317,46 +314,46 @@ function RentalDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o:
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="max-w-xl">
                 <DialogHeader>
-                    <DialogTitle>New rental</DialogTitle>
-                    <DialogDescription>Book an item out to a customer.</DialogDescription>
+                    <DialogTitle>Neue Vermietung</DialogTitle>
+                    <DialogDescription>Vermietung für einen Kunden erstellen.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4">
-                    <Field label="Customer">
+                    <Field label="Kunde">
                         <Select value={customerId} onValueChange={setCustomerId}>
-                            <SelectTrigger><SelectValue placeholder="Select customer" /></SelectTrigger>
+                            <SelectTrigger><SelectValue placeholder="Kunde auswählen" /></SelectTrigger>
                             <SelectContent>
                                 {customers.map((c: any) => <SelectItem key={c.id} value={c.id}>{c.name}{c.company ? ` · ${c.company}` : ""}</SelectItem>)}
                             </SelectContent>
                         </Select>
                     </Field>
-                    <Field label="Item">
+                    <Field label="Objekt">
                         <Select value={itemId} onValueChange={setItemId}>
-                            <SelectTrigger><SelectValue placeholder="Select item" /></SelectTrigger>
+                            <SelectTrigger><SelectValue placeholder="Objekt auswählen" /></SelectTrigger>
                             <SelectContent>
                                 {inventory.map((i: any) => (
-                                    <SelectItem key={i.id} value={i.id}>{i.name} · {i.pricePerDay}€/day</SelectItem>
+                                    <SelectItem key={i.id} value={i.id}>{i.name} · {i.pricePerDay}€/Tag</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
                     </Field>
                     <div className="grid grid-cols-2 gap-3">
-                        <Field label="Start date">
+                        <Field label="Startdatum">
                             <Input type="date" value={start} onChange={(e) => setStart(e.target.value)} />
                         </Field>
-                        <Field label="End date">
+                        <Field label="Enddatum">
                             <Input type="date" value={end} onChange={(e) => setEnd(e.target.value)} />
                         </Field>
                     </div>
-                    <Field label="Notes" hint="Optional">
+                    <Field label="Notizen" hint="Optional">
                         <Textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} />
                     </Field>
                 </div>
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+                    <Button variant="outline" onClick={() => onOpenChange(false)}>Abbrechen</Button>
                     <Button
                         disabled={!canSave || loading}
                         onClick={handleSave}
-                    >{loading ? "Saving..." : "Create rental"}</Button>
+                    >{loading ? "Speichert..." : "Vermietung erstellen"}</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
@@ -415,11 +412,11 @@ function ReservationDialog({ open, onOpenChange }: { open: boolean; onOpenChange
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>New reservation</DialogTitle>
-                    <DialogDescription>Pre-book items for a future date.</DialogDescription>
+                    <DialogTitle>Neue Reservierung</DialogTitle>
+                    <DialogDescription>Reservierung für einen Kunden erstellen.</DialogDescription>
                 </DialogHeader>
                 <div className="grid gap-4">
-                    <Field label="Customer">
+                    <Field label="Kunde">
                         <Popover open={openCombobox} onOpenChange={setOpenCombobox}>
                             <PopoverTrigger asChild>
                                 <Button
@@ -430,14 +427,14 @@ function ReservationDialog({ open, onOpenChange }: { open: boolean; onOpenChange
                                 >
                                     {selectedCustomer
                                         ? `${selectedCustomer.name} - ${selectedCustomer.id}`
-                                        : "Select customer..."}
+                                        : "Kunden auswählen"}
                                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-full p-0">
                                 <Command>
-                                    <CommandInput placeholder="Search customer..." />
-                                    <CommandEmpty>No customer found.</CommandEmpty>
+                                    <CommandInput placeholder="Kunden suchen" />
+                                    <CommandEmpty>Keine Kunden gefunden</CommandEmpty>
                                     <CommandGroup>
                                         {customers.map((customer: any) => (
                                             <CommandItem
@@ -462,24 +459,24 @@ function ReservationDialog({ open, onOpenChange }: { open: boolean; onOpenChange
                             </PopoverContent>
                         </Popover>
                     </Field>
-                    <Field label="Items">
-                        <Input value={itemsLabel} onChange={(e) => setItemsLabel(e.target.value)} placeholder="e.g. Castle Royal XL + 20 chairs" />
+                    <Field label="Objekte">
+                        <Input value={itemsLabel} onChange={(e) => setItemsLabel(e.target.value)} placeholder="z. B. Burgen Royal XL + 20 Stühle" />
                     </Field>
                     <div className="grid grid-cols-2 gap-3">
-                        <Field label="Start">
+                        <Field label="Startdatum">
                             <Input type="date" value={start} onChange={(e) => setStart(e.target.value)} />
                         </Field>
-                        <Field label="End">
+                        <Field label="Enddatum">
                             <Input type="date" value={end} onChange={(e) => setEnd(e.target.value)} />
                         </Field>
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+                    <Button variant="outline" onClick={() => onOpenChange(false)}>Abbrechen</Button>
                     <Button
                         disabled={!canSave || loading}
                         onClick={handleSave}
-                    >{loading ? "Saving..." : "Create reservation"}</Button>
+                    >{loading ? "Speichert..." : "Reservierung erstellen"}</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
@@ -494,7 +491,6 @@ function CategoryDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (
 
     useEffect(() => {
         if (open) setName("");
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [open]);
 
     const handleSave = async () => {
@@ -518,18 +514,18 @@ function CategoryDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>New category</DialogTitle>
-                    <DialogDescription>Group inventory items by type.</DialogDescription>
+                    <DialogTitle>Neue Kategorie</DialogTitle>
+                    <DialogDescription>Neue Kategorie für Objekte anlegen.</DialogDescription>
                 </DialogHeader>
                 <Field label="Name">
-                    <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Sound systems" />
+                    <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="z. B. Beschallungsanlagen" />
                 </Field>
                 <DialogFooter>
-                    <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
+                    <Button variant="outline" onClick={() => onOpenChange(false)}>Abbrechen</Button>
                     <Button
                         disabled={!name.trim() || loading}
                         onClick={handleSave}
-                    >{loading ? "Saving..." : "Add category"}</Button>
+                    >{loading ? "Speichert..." : "Kategorie hinzufügen"}</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

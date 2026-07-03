@@ -1,4 +1,4 @@
-import { Plus, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { Topbar } from "@/components/app/topbar";
 import { PageHeader } from "@/components/app/page-header";
 import { StatusPill } from "@/components/app/status-pill";
@@ -23,26 +23,26 @@ function RentalsClient({ rentals }: { rentals: Awaited<ReturnType<typeof getDash
 
   return (
     <>
-      <Topbar title="Rentals" />
+      <Topbar title="Vermietungen" />
       <main className="flex-1 px-4 py-6 lg:px-7 lg:py-8">
         <PageHeader
-          title="Rentals"
-          description="Track every active rental, upcoming pickup and overdue return in one timeline."
+          title="Vermietungen"
+          description="Behalte aktive Vermietungen, Abholtermine und verspätete Rückgaben in einer Übersicht im Blick."
           actions={<RentalsActionButton />}
         />
 
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <Stat label="Active" value={counts.active.toString()} />
-          <Stat label="Upcoming" value={counts.upcoming.toString()} />
-          <Stat label="Late returns" value={counts.late.toString()} />
-          <Stat label="Total revenue" value={eur(counts.revenue)} />
+          <Stat label="Aktiv" value={counts.active.toString()} />
+          <Stat label="Bevorstehend" value={counts.upcoming.toString()} />
+          <Stat label="Verspätete Rückgaben" value={counts.late.toString()} />
+          <Stat label="Gesamtumsatz" value={eur(counts.revenue)} />
         </div>
 
         <div className="mt-6 rounded-2xl border border-border bg-surface">
           <div className="flex flex-wrap items-center gap-2 border-b border-border p-3">
             <div className="relative flex-1 min-w-[220px]">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input placeholder="Search rentals…" className="h-9 w-full rounded-lg border border-border bg-background pl-9 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30" />
+              <input placeholder="Vermietungen durchsuchen…" className="h-9 w-full rounded-lg border border-border bg-background pl-9 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30" />
             </div>
           </div>
 
@@ -51,10 +51,10 @@ function RentalsClient({ rentals }: { rentals: Awaited<ReturnType<typeof getDash
               <thead>
                 <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground">
                   <th className="py-2.5 pl-5 pr-3 font-semibold">ID</th>
-                  <th className="px-3 py-2.5 font-semibold">Customer</th>
-                  <th className="px-3 py-2.5 font-semibold">Items</th>
-                  <th className="px-3 py-2.5 font-semibold">Period</th>
-                  <th className="px-3 py-2.5 font-semibold text-right">Total</th>
+                  <th className="px-3 py-2.5 font-semibold">Kunde</th>
+                  <th className="px-3 py-2.5 font-semibold">Gegenstände</th>
+                  <th className="px-3 py-2.5 font-semibold">Zeitraum</th>
+                  <th className="px-3 py-2.5 font-semibold text-right">Summe</th>
                   <th className="px-3 py-2.5 font-semibold">Status</th>
                   <th className="px-3 py-2.5 pr-5"></th>
                 </tr>
@@ -73,10 +73,10 @@ function RentalsClient({ rentals }: { rentals: Awaited<ReturnType<typeof getDash
                     <td className="px-3 py-3 text-muted-foreground">{shortDate(r.start)} → {shortDate(r.end)}</td>
                     <td className="px-3 py-3 text-right tabular-nums font-medium">{eur(r.total)}</td>
                     <td className="px-3 py-3"><StatusPill tone={statusTone(r.status) as never}>{r.status}</StatusPill></td>
-                    <td className="pr-5 pl-3 py-3 text-right"><Button variant="outline" size="sm">View</Button></td>
+                    <td className="pr-5 pl-3 py-3 text-right"><Button variant="outline" size="sm">Ansehen</Button></td>
                   </tr>
                 ))}
-                {rentals.length === 0 && <tr><td colSpan={7} className="px-5 py-16 text-center text-muted-foreground">No rentals yet.</td></tr>}
+                {rentals.length === 0 && <tr><td colSpan={7} className="px-5 py-16 text-center text-muted-foreground">Noch keine Vermietungen.</td></tr>}
               </tbody>
             </table>
           </div>

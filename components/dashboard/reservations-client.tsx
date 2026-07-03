@@ -20,22 +20,22 @@ export default function ReservationsClient({ reservations }: { reservations: typ
 
   return (
     <>
-      <Topbar title="Reservations" subtitle={`${counts.total} reservations`} />
+      <Topbar title="Reservierungen" subtitle={`${counts.total} Reservierungen`} />
       <main className="flex-1 px-4 py-6 lg:px-7 lg:py-8">
         <PageHeader
-          title="Reservations"
-          description="Upcoming bookings that need confirmation or have scheduling conflicts."
+          title="Reservierungen"
+          description="Anstehende Buchungen, die bestätigt werden müssen oder Termin-Konflikte haben."
           actions={
             <Button size="sm" onClick={() => triggerCreate("reservation")}>
-              <Plus className="h-4 w-4" />New reservation
+              <Plus className="h-4 w-4" />Neue Reservierung
             </Button>
           }
         />
 
         <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <StatCard label="Pending" value={counts.pending} tone="warning" icon={<AlertCircle className="h-4 w-4" />} />
-          <StatCard label="Confirmed" value={counts.confirmed} tone="success" icon={<CalendarClock className="h-4 w-4" />} />
-          <StatCard label="Conflicts" value={counts.conflict} tone="destructive" icon={<AlertCircle className="h-4 w-4" />} />
+          <StatCard label="Ausstehend" value={counts.pending} tone="warning" icon={<AlertCircle className="h-4 w-4" />} />
+          <StatCard label="Bestätigt" value={counts.confirmed} tone="success" icon={<CalendarClock className="h-4 w-4" />} />
+          <StatCard label="Konflikte" value={counts.conflict} tone="destructive" icon={<AlertCircle className="h-4 w-4" />} />
         </div>
 
         <div className="mt-6 rounded-2xl border border-border bg-surface">
@@ -44,10 +44,10 @@ export default function ReservationsClient({ reservations }: { reservations: typ
               <thead>
                 <tr className="text-left text-[11px] uppercase tracking-wider text-muted-foreground">
                   <th className="py-2.5 pl-5 pr-3 font-semibold">ID</th>
-                  <th className="px-3 py-2.5 font-semibold">Customer</th>
-                  <th className="px-3 py-2.5 font-semibold">Items</th>
-                  <th className="px-3 py-2.5 font-semibold">Period</th>
-                  <th className="px-3 py-2.5 font-semibold text-right">Total</th>
+                  <th className="px-3 py-2.5 font-semibold">Kunde</th>
+                  <th className="px-3 py-2.5 font-semibold">Gegenstände</th>
+                  <th className="px-3 py-2.5 font-semibold">Zeitraum</th>
+                  <th className="px-3 py-2.5 font-semibold text-right">Summe</th>
                   <th className="px-3 py-2.5 font-semibold">Status</th>
                   <th className="px-3 py-2.5 pr-5"></th>
                 </tr>
@@ -61,7 +61,7 @@ export default function ReservationsClient({ reservations }: { reservations: typ
                     <td className="px-3 py-3 text-muted-foreground">{shortDate(r.start)} → {shortDate(r.end)}</td>
                     <td className="px-3 py-3 text-right tabular-nums font-medium">{eur(r.total)}</td>
                     <td className="px-3 py-3"><StatusPill tone={statusTone(r.status) as never}>{r.status}</StatusPill></td>
-                    <td className="pr-5 pl-3 py-3 text-right"><Button variant="outline" size="sm">View</Button></td>
+                    <td className="pr-5 pl-3 py-3 text-right"><Button variant="outline" size="sm">Ansehen</Button></td>
                   </tr>
                 ))}
               </tbody>

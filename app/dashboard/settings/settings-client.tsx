@@ -49,9 +49,9 @@ export default function SettingsClient({
       formData.append("contactEmail", contactEmail);
       await updateTenantSettings(formData);
       router.refresh();
-      alert("Settings saved!");
+      alert("Einstellungen gespeichert!");
     } catch (error) {
-      alert("Error saving settings");
+      alert("Fehler beim Speichern");
     } finally {
       setLoading(false);
     }
@@ -67,54 +67,54 @@ export default function SettingsClient({
       setShowInviteDialog(false);
       setInviteEmail("");
       router.refresh();
-      alert(result.message || "User invited!");
+      alert(result.message || "Benutzer eingeladen!");
     } catch (error: any) {
-      alert(error.message || "Error inviting user");
+      alert(error.message || "Fehler beim Einladen");
     } finally {
       setLoading(false);
     }
   };
 
   const handleRemoveUser = async (userId: string, userName: string) => {
-    if (!confirm(`Remove ${userName}?`)) return;
+    if (!confirm(`Benutzer ${userName} entfernen?`)) return;
 
     try {
       await removeUser(userId);
       router.refresh();
-      alert("User removed");
+      alert("Benutzer entfernt");
     } catch (error: any) {
-      alert(error.message || "Error removing user");
+      alert(error.message || "Fehler beim Entfernen des Benutzers");
     }
   };
 
   return (
     <>
-      <Topbar title="Settings" />
+      <Topbar title="Einstellungen" />
       <main className="flex-1 px-4 py-6 lg:px-7 lg:py-8">
         <PageHeader
-          title="Workspace settings"
-          description="Manage your company profile, team members, billing and integrations."
+          title="Workspace-Einstellungen"
+          description="Verwalte Firmenprofil, Team, Abrechnung und Integrationen."
         />
 
         <Tabs defaultValue="company" className="mt-6">
           <TabsList className="flex-wrap">
-            <TabsTrigger value="company"><Building2 className="h-3.5 w-3.5" />Company</TabsTrigger>
+            <TabsTrigger value="company"><Building2 className="h-3.5 w-3.5" />Firma</TabsTrigger>
             <TabsTrigger value="branding"><Palette className="h-3.5 w-3.5" />Branding</TabsTrigger>
-            <TabsTrigger value="users"><UsersIcon className="h-3.5 w-3.5" />Users</TabsTrigger>
-            <TabsTrigger value="billing"><CreditCard className="h-3.5 w-3.5" />Billing</TabsTrigger>
-            <TabsTrigger value="public"><Boxes className="h-3.5 w-3.5" />Public page</TabsTrigger>
+            <TabsTrigger value="users"><UsersIcon className="h-3.5 w-3.5" />Team</TabsTrigger>
+            <TabsTrigger value="billing"><CreditCard className="h-3.5 w-3.5" />Abrechnung</TabsTrigger>
+            <TabsTrigger value="public"><Boxes className="h-3.5 w-3.5" />Öffentliche Seite</TabsTrigger>
           </TabsList>
 
           <TabsContent value="company" className="mt-5">
             <div className="rounded-2xl border border-border bg-surface p-6">
               <div>
-                <h3 className="text-sm font-semibold">Company information</h3>
-                <p className="mt-1 text-xs text-muted-foreground">Shown on invoices and the public booking page.</p>
+                <h3 className="text-sm font-semibold">Firmeninformationen</h3>
+                <p className="mt-1 text-xs text-muted-foreground">Wird auf Rechnungen und der öffentlichen Buchungsseite angezeigt.</p>
               </div>
 
               <div className="mt-6 space-y-4">
                 <div>
-                  <label className="text-sm font-medium">Company name</label>
+                  <label className="text-sm font-medium">Firmenname</label>
                   <Input
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
@@ -123,29 +123,29 @@ export default function SettingsClient({
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium">Public subdomain</label>
+                  <label className="text-sm font-medium">Öffentliche Subdomain</label>
                   <Input
                     value={`${tenant.slug}.leihmi.de`}
                     disabled
                     className="mt-1"
                   />
-                  <p className="mt-1 text-xs text-muted-foreground">Contact support to change your subdomain</p>
+                  <p className="mt-1 text-xs text-muted-foreground">Support kontaktieren, um die Subdomain zu ändern</p>
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium">Contact email</label>
+                  <label className="text-sm font-medium">Kontakt-E-Mail</label>
                   <Input
                     type="email"
                     value={contactEmail}
                     onChange={(e) => setContactEmail(e.target.value)}
-                    placeholder="contact@example.com"
+                    placeholder="kontakt@example.com"
                     className="mt-1"
                   />
                 </div>
 
                 {/* Public booking preview */}
                 <div className="mt-6">
-                  <div className="text-sm font-semibold">Public booking page</div>
+                  <div className="text-sm font-semibold">Vorschau der öffentlichen Buchungsseite</div>
                   <div className="mt-2 flex items-center gap-3">
                     <Input
                       readOnly
@@ -153,18 +153,18 @@ export default function SettingsClient({
                       className="flex-1"
                     />
                     <Button asChild size="sm">
-                      <a href="/book" target="_blank" rel="noreferrer">Preview</a>
+                      <a href="/book" target="_blank" rel="noreferrer">Vorschau</a>
                     </Button>
                   </div>
                   <p className="mt-2 text-xs text-muted-foreground">
-                    This opens a local preview. When deployed, available on your subdomain.
+                    Öffnet eine lokale Vorschau. Bei Deployment verfügbar unter deiner Subdomain.
                   </p>
                 </div>
               </div>
 
               <div className="mt-6 flex justify-end">
                 <Button onClick={handleSaveCompany} disabled={loading}>
-                  {loading ? "Saving..." : "Save changes"}
+                  {loading ? "Speichert..." : "Änderungen speichern"}
                 </Button>
               </div>
             </div>
@@ -174,7 +174,7 @@ export default function SettingsClient({
             <div className="rounded-2xl border border-border bg-surface p-6">
               <div>
                 <h3 className="text-sm font-semibold">Branding</h3>
-                <p className="mt-1 text-xs text-muted-foreground">Logo and colors for your public catalog.</p>
+                <p className="mt-1 text-xs text-muted-foreground">Logo und Farben für deinen öffentlichen Katalog.</p>
               </div>
 
               <div className="mt-6 space-y-4">
@@ -183,21 +183,21 @@ export default function SettingsClient({
                     {tenant.name[0]}
                   </div>
                   <div className="flex-1">
-                    <div className="text-sm font-medium">Workspace logo</div>
-                    <div className="text-xs text-muted-foreground">PNG or SVG · max 2MB</div>
+                    <div className="text-sm font-medium">Workspace-Logo</div>
+                    <div className="text-xs text-muted-foreground">PNG oder SVG · max 2MB</div>
                   </div>
-                  <Button variant="outline" size="sm">Upload (Coming soon)</Button>
+                  <Button variant="outline" size="sm">Hochladen (kommt bald)</Button>
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium">Accent color</label>
+                  <label className="text-sm font-medium">Akzentfarbe</label>
                   <Input type="color" defaultValue="#1d6e4b" className="mt-1 h-10" />
-                  <p className="mt-1 text-xs text-muted-foreground">Used for buttons and highlights</p>
+                  <p className="mt-1 text-xs text-muted-foreground">Wird für Buttons und Hervorhebungen genutzt</p>
                 </div>
               </div>
 
               <div className="mt-6 flex justify-end">
-                <Button disabled>Save (Coming soon)</Button>
+                <Button disabled>Speichern (kommt bald)</Button>
               </div>
             </div>
           </TabsContent>
@@ -206,10 +206,10 @@ export default function SettingsClient({
             <div className="rounded-2xl border border-border bg-surface p-6">
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="text-sm font-semibold">Team members</h3>
-                  <p className="mt-1 text-xs text-muted-foreground">Manage team access and roles.</p>
+                  <h3 className="text-sm font-semibold">Teammitglieder</h3>
+                  <p className="mt-1 text-xs text-muted-foreground">Zugriffe und Rollen im Team verwalten.</p>
                 </div>
-                <Button size="sm" onClick={() => setShowInviteDialog(true)}>Invite</Button>
+                <Button size="sm" onClick={() => setShowInviteDialog(true)}>Einladen</Button>
               </div>
 
               <div className="mt-6 space-y-3">
@@ -244,32 +244,32 @@ export default function SettingsClient({
           <TabsContent value="billing" className="mt-5">
             <div className="rounded-2xl border border-border bg-surface p-6">
               <div>
-                <h3 className="text-sm font-semibold">Billing & Plan</h3>
-                <p className="mt-1 text-xs text-muted-foreground">Manage your subscription via Stripe.</p>
+                <h3 className="text-sm font-semibold">Abrechnung & Plan</h3>
+                <p className="mt-1 text-xs text-muted-foreground">Verwalte dein Abo über Stripe.</p>
               </div>
 
               <div className="mt-6">
                 <div className="rounded-lg border-2 border-primary bg-primary/5 p-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <div className="text-sm font-semibold">Free Plan</div>
-                      <div className="text-xs text-muted-foreground">Currently active</div>
+                      <div className="text-sm font-semibold">Kostenloser Plan</div>
+                      <div className="text-xs text-muted-foreground">Derzeit aktiv</div>
                     </div>
                     <div className="text-right">
                       <div className="text-2xl font-bold">€0</div>
-                      <div className="text-xs text-muted-foreground">per month</div>
+                      <div className="text-xs text-muted-foreground">pro Monat</div>
                     </div>
                   </div>
                   <ul className="mt-4 space-y-2 text-xs">
-                    <li>✓ Up to 50 items</li>
-                    <li>✓ Unlimited rentals</li>
-                    <li>✓ Public booking page</li>
+                    <li>✓ Bis zu 50 Objekte</li>
+                    <li>✓ Unbegrenzte Vermietungen</li>
+                    <li>✓ Öffentliche Buchungsseite</li>
                   </ul>
                 </div>
 
                 <div className="mt-4">
                   <Button className="w-full" disabled>
-                    Upgrade to Pro (Coming soon - Stripe integration)
+                    Upgrade zu Pro (kommt bald - Stripe Integration)
                   </Button>
                 </div>
               </div>
@@ -279,35 +279,35 @@ export default function SettingsClient({
           <TabsContent value="public" className="mt-5">
             <div className="rounded-2xl border border-border bg-surface p-6">
               <div>
-                <h3 className="text-sm font-semibold">Public page configuration</h3>
-                <p className="mt-1 text-xs text-muted-foreground">Customize your booking page sections.</p>
+                <h3 className="text-sm font-semibold">Öffentliche Seiten-Einstellungen</h3>
+                <p className="mt-1 text-xs text-muted-foreground">Abschnitte deiner Buchungsseite anpassen.</p>
               </div>
 
               <div className="mt-6 space-y-4">
                 <div>
-                  <label className="text-sm font-medium">How it works text</label>
+                  <label className="text-sm font-medium">Text: Wie es funktioniert</label>
                   <textarea
                     rows={3}
                     className="mt-1 w-full rounded-lg border border-border bg-background p-3 text-sm"
-                    placeholder="Describe your booking process..."
+                    placeholder="Beschreibe deinen Buchungsprozess..."
                   />
                 </div>
 
                 <div>
                   <Button variant="outline" size="sm" disabled>
-                    Edit Reviews (Coming soon)
+                    Bewertungen bearbeiten (kommt bald)
                   </Button>
                 </div>
 
                 <div>
                   <Button variant="outline" size="sm" disabled>
-                    Edit FAQ (Coming soon)
+                    FAQ bearbeiten (kommt bald)
                   </Button>
                 </div>
               </div>
 
               <div className="mt-6 flex justify-end">
-                <Button disabled>Save (Coming soon)</Button>
+                <Button disabled>Speichern (kommt bald)</Button>
               </div>
             </div>
           </TabsContent>
@@ -318,38 +318,38 @@ export default function SettingsClient({
       <Dialog open={showInviteDialog} onOpenChange={setShowInviteDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Invite team member</DialogTitle>
-            <DialogDescription>Send an invitation to join your workspace.</DialogDescription>
+            <DialogTitle>Benutzer einladen</DialogTitle>
+            <DialogDescription>Einladung senden, um dem Workspace beizutreten.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium">Email address</label>
+              <label className="text-sm font-medium">E-Mail-Adresse</label>
               <Input
                 type="email"
                 value={inviteEmail}
                 onChange={(e) => setInviteEmail(e.target.value)}
-                placeholder="colleague@example.com"
+                placeholder="kollege@example.com"
                 className="mt-1"
               />
             </div>
             <div>
-              <label className="text-sm font-medium">Role</label>
+              <label className="text-sm font-medium">Rolle</label>
               <Select value={inviteRole} onValueChange={setInviteRole}>
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="ADMIN">Admin - Full access</SelectItem>
-                  <SelectItem value="OPERATOR">Operator - Manage rentals</SelectItem>
-                  <SelectItem value="VIEWER">Viewer - Read only</SelectItem>
+                  <SelectItem value="ADMIN">Admin - Volle Rechte</SelectItem>
+                  <SelectItem value="OPERATOR">Operator - Vermietungen verwalten</SelectItem>
+                  <SelectItem value="VIEWER">Viewer - Nur Lesen</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setShowInviteDialog(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setShowInviteDialog(false)}>Abbrechen</Button>
             <Button onClick={handleInviteUser} disabled={loading || !inviteEmail}>
-              {loading ? "Inviting..." : "Send invitation"}
+              {loading ? "Lädt..." : "Einladung senden"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -357,4 +357,3 @@ export default function SettingsClient({
     </>
   );
 }
-

@@ -32,12 +32,12 @@ export function Topbar({ title, subtitle }: {
         <DropdownMenuContent align="end">
           <DropdownMenuItem>
             <User className="h-4 w-4" />
-            Profile
+            Profil
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => signOut({ callbackUrl: "/login" })} className="text-destructive focus:text-destructive">
             <LogOut className="h-4 w-4" />
-            Logout
+            Abmelden
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

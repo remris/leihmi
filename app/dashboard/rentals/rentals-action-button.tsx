@@ -8,8 +8,7 @@ export default function RentalsActionButton() {
   return (
     <Button size="sm" onClick={() => triggerCreate("rental")}>
       <Plus className="h-4 w-4" />
-      New rental
+      Neue Vermietung
     </Button>
   );
 }
-

@@ -14,26 +14,26 @@ type NavItem = { href: string; label: string; icon: typeof LayoutDashboard; badg
 
 const nav: { section: string; items: NavItem[] }[] = [
   {
-    section: "Operate",
+    section: "Betrieb",
     items: [
-      { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-      { href: "/dashboard/rentals", label: "Rentals", icon: Receipt },
-      { href: "/dashboard/reservations", label: "Reservations", icon: CalendarClock},
-      { href: "/dashboard/calendar", label: "Calendar", icon: CalendarIcon },
+      { href: "/dashboard", label: "Übersicht", icon: LayoutDashboard },
+      { href: "/dashboard/rentals", label: "Vermietungen", icon: Receipt },
+      { href: "/dashboard/reservations", label: "Reservierungen", icon: CalendarClock},
+      { href: "/dashboard/calendar", label: "Kalender", icon: CalendarIcon },
     ],
   },
   {
-    section: "Catalog",
+    section: "Katalog",
     items: [
-      { href: "/dashboard/inventory", label: "Inventory", icon: Package },
-      { href: "/dashboard/categories", label: "Categories", icon: Tags },
+      { href: "/dashboard/inventory", label: "Inventar", icon: Package },
+      { href: "/dashboard/categories", label: "Kategorien", icon: Tags },
     ],
   },
   {
-    section: "Relations",
+    section: "Beziehungen",
     items: [
-      { href: "/dashboard/customers", label: "Customers", icon: Users },
-      { href: "/dashboard/analytics", label: "Analytics", icon: BarChart3 },
+      { href: "/dashboard/customers", label: "Kunden", icon: Users },
+      { href: "/dashboard/analytics", label: "Analysen", icon: BarChart3 },
     ],
   },
 ];
@@ -108,7 +108,7 @@ export function Sidebar() {
             )}
           >
             <Settings className="h-[17px] w-[17px] shrink-0 text-muted-foreground" />
-            <span className="flex-1 truncate">Settings</span>
+            <span className="flex-1 truncate">Einstellungen</span>
           </Link>
           <Link
               href="/book"
@@ -120,7 +120,7 @@ export function Sidebar() {
               )}
           >
             <Settings className="h-[17px] w-[17px] shrink-0 text-muted-foreground" />
-            <span className="flex-1 truncate">Public booking</span>
+            <span className="flex-1 truncate">Öffentliche Buchung</span>
           </Link>
         </div>
       </nav>

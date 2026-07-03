@@ -11,12 +11,12 @@ import { triggerCreate } from "@/lib/store";
 export default function CategoriesClientComponent({ categories }: { categories: Awaited<ReturnType<typeof getDashboardCategories>> }) {
   return (
     <>
-      <Topbar title="Categories" />
+      <Topbar title="Kategorien" />
       <main className="flex-1 px-4 py-6 lg:px-7 lg:py-8">
         <PageHeader
-          title="Categories"
-          description="Group inventory by type to power filters, public catalog and analytics."
-          actions={<Button size="sm" onClick={() => triggerCreate("category")}><Plus className="h-4 w-4" />New category</Button>}
+          title="Kategorien"
+          description="Gruppiere Objekte nach Typ für Filter, öffentlichen Katalog und Analytics."
+          actions={<Button size="sm" onClick={() => triggerCreate("category")}><Plus className="h-4 w-4" />Neue Kategorie</Button>}
         />
 
         <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -27,7 +27,7 @@ export default function CategoriesClientComponent({ categories }: { categories: 
                   <div className="h-10 w-10 rounded-xl" style={{ background: c.color, opacity: 0.85 }} />
                   <div>
                     <div className="text-[15px] font-semibold tracking-tight">{c.name}</div>
-                    <div className="text-[12px] text-muted-foreground">{c.count} items</div>
+                    <div className="text-[12px] text-muted-foreground">{c.count} Objekte</div>
                   </div>
                 </div>
                 <DropdownMenu>
@@ -39,16 +39,16 @@ export default function CategoriesClientComponent({ categories }: { categories: 
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem onClick={() => triggerCreate("item")}>
                       <Package className="h-3.5 w-3.5" />
-                      Add item to category
+                      Objekt zur Kategorie hinzufügen
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>
                       <Edit className="h-3.5 w-3.5" />
-                      Edit category
+                      Kategorie bearbeiten
                     </DropdownMenuItem>
                     <DropdownMenuItem className="text-destructive focus:text-destructive">
                       <Trash2 className="h-3.5 w-3.5" />
-                      Delete
+                      Löschen
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -56,23 +56,22 @@ export default function CategoriesClientComponent({ categories }: { categories: 
               <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[12px]">
                 <div className="rounded-lg bg-muted py-2">
                   <div className="text-[15px] font-semibold tabular-nums text-foreground">{c.available}</div>
-                  <div className="text-muted-foreground">Available</div>
+                  <div className="text-muted-foreground">Verfügbar</div>
                 </div>
                 <div className="rounded-lg bg-muted py-2">
                   <div className="text-[15px] font-semibold tabular-nums text-foreground">{c.out}</div>
-                  <div className="text-muted-foreground">Out</div>
+                  <div className="text-muted-foreground">Ausgeliehen</div>
                 </div>
                 <div className="rounded-lg bg-muted py-2">
                   <div className="text-[15px] font-semibold tabular-nums text-foreground">{c.reserved}</div>
-                  <div className="text-muted-foreground">Reserved</div>
+                  <div className="text-muted-foreground">Reserviert</div>
                 </div>
               </div>
             </div>
           ))}
-          {categories.length === 0 && <div className="col-span-full p-16 text-center text-muted-foreground">No categories yet.</div>}
+          {categories.length === 0 && <div className="col-span-full p-16 text-center text-muted-foreground">Noch keine Kategorien vorhanden.</div>}
         </div>
       </main>
     </>
   );
 }
-

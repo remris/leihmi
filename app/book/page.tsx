@@ -157,23 +157,26 @@ export default async function BookLandingPage() {
         <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {featured.map((it) => (
             <div key={it.id} className="group overflow-hidden rounded-2xl border border-border bg-surface transition-shadow hover:shadow-[0_18px_40px_-22px_rgba(0,0,0,0.22)]">
-              <div className="aspect-[4/3] overflow-hidden">
+              <Link href={`/book/${it.id}`} className="block aspect-[4/3] overflow-hidden">
                 <img src={it.image} alt={it.name} className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
-              </div>
+              </Link>
               <div className="p-4">
                 <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">{it.category}</div>
-                <div className="mt-1 text-[15px] font-semibold tracking-tight">{it.name}</div>
+                <Link href={`/book/${it.id}`} className="mt-1 block text-[15px] font-semibold tracking-tight hover:text-primary">{it.name}</Link>
                 <div className="mt-3 flex items-center justify-between">
                   <div>
                     <span className="text-[18px] font-semibold tabular-nums">{eur(it.pricePerDay)}</span>
                     <span className="text-[12px] text-muted-foreground"> / day</span>
                   </div>
-                  <Button size="sm">Book</Button>
+                  <Button size="sm" asChild>
+                    <Link href={`/book/${it.id}`}>Book</Link>
+                  </Button>
                 </div>
                 <div className="mt-2 inline-flex items-center gap-1.5 text-[11.5px] text-success">
                   <span className="h-1.5 w-1.5 rounded-full bg-success" />
                   {it.available} available this weekend
                 </div>
+
               </div>
             </div>
           ))}

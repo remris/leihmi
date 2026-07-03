@@ -4,13 +4,16 @@ import { getTenantBySlug } from "@/lib/tenant";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 
-export default async function InventoryItemPage({ params }: { params: { id: string } }) {
+export default async function InventoryItemPage({ params }: { params: Promise<{ id: string }> }) {
+  // params can be a Promise in some Next.js versions; unwrap it safely
+  const { id } = await params;
+
   const slug = await requireTenantSlug();
   const tenant = await getTenantBySlug(slug);
   if (!tenant) return notFound();
 
   const item = await prisma.inventoryItem.findFirst({
-    where: { id: params.id, tenantId: tenant.id },
+    where: { id: id, tenantId: tenant.id },
     include: {
       category: true,
       images: true,
@@ -111,4 +114,3 @@ export default async function InventoryItemPage({ params }: { params: { id: stri
     </main>
   );
 }
-
